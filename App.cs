@@ -18,21 +18,29 @@ namespace WebsocketMQTTBridge
       _prepareTitle();
       try
       {
-        _webSocketServer = new WebsocketServer();
+        _prepareWebsocketServer();
         Console.WriteLine(" ");
-        _mqttClient = new MqttClient();
-        if(_mqttClient.isConnected())
-        {
-          _subscribe();
-        }
+        _prepareMqttClient();
       }
       catch (Exception e)
       {
-        _webSocketServer?.destroy();
-        _mqttClient?.destroy();
-        _webSocketServer = null;
-        _mqttClient = null;
+        _destroyWebsocketServer();
+        _destroyMqttClient();
         Console.ReadKey();
+      }
+    }
+
+    private void _prepareWebsocketServer()
+    {
+      _webSocketServer = new WebsocketServer();
+    }
+
+    private void _prepareMqttClient()
+    {
+      _mqttClient = new MqttClient();
+      if (_mqttClient.isConnected())
+      {
+        _subscribe();
       }
     }
 
@@ -51,6 +59,18 @@ namespace WebsocketMQTTBridge
 /_/ /_/ /_/\__, /\__/\__/    |__/|__/\___/_.___/____/\____/\___/_/|_|\___/\__/  /_.___/_/  /_/\__,_/\__, /\___/
              /_/                                                                                   /____/";
       Console.WriteLine(title);
+    }
+
+    private void _destroyMqttClient()
+    {
+      _mqttClient?.destroy();
+      _mqttClient = null;
+    }
+
+    private void _destroyWebsocketServer()
+    {
+      _webSocketServer?.destroy();
+      _webSocketServer = null;
     }
 
   }
