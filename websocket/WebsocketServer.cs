@@ -3,20 +3,11 @@ using WebSocketSharp;
 using WebSocketSharp.Server;
 
 using WebsocketMQTTBridge.util;
+using WebsocketMQTTBridge.websocket.behaviours;
 
 namespace WebsocketMQTTBridge
 {
-  // TODO create sepearete classes
-  public class ExampleWebSocketBehaviour : WebSocketBehavior
-  {
-    protected override void OnMessage(MessageEventArgs e)
-    {
-      var msg = e.Data == "BALUS"
-                ? "I've been balused already..."
-                : "I'm not available now.";
-      Send(msg);
-    }
-  }
+ 
   /* https://github.com/PingmanTools/websocket-sharp/*/
   class WebsocketServer
   {
@@ -40,7 +31,7 @@ namespace WebsocketMQTTBridge
         _websocketServer = new WebSocketServer("ws://" + _ipAdress + ":" + _port.ToString());
         ConsoleWritter.writeOK("OK", "Websocket Server Running: ");
         _websocketServer.Start();
-        _websocketServer.AddWebSocketService<ExampleWebSocketBehaviour>("/");
+        _websocketServer.AddWebSocketService<DefaultWebSocketBehaviour>("/");
       }
       catch (Exception e)
       {
