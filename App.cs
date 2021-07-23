@@ -9,7 +9,6 @@ namespace WebsocketMQTTBridge
   class App
   {
     private WebsocketServer _webSocketServer;
-    private MqttClient _mqttClient;
     public App()
     {
       _init();
@@ -22,12 +21,11 @@ namespace WebsocketMQTTBridge
       {
         _prepareWebsocketServer();
         Console.WriteLine(" ");
-        _prepareMqttClient();
+
       }
       catch (Exception e)
       {
         _destroyWebsocketServer();
-        _destroyMqttClient();
         Console.ReadKey();
       }
     }
@@ -35,21 +33,6 @@ namespace WebsocketMQTTBridge
     private void _prepareWebsocketServer()
     {
       _webSocketServer = new WebsocketServer();
-    }
-
-    private void _prepareMqttClient()
-    {
-      _mqttClient = new MqttClient();
-      if (_mqttClient.isConnected())
-      {
-        _subscribe();
-      }
-    }
-
-    private void _subscribe()
-    {
-      List<string> topics = new List<string> { "events/inputs", "res/version", "res/peripherals/iapi", "peripherals/iapi" };
-      _mqttClient.subscribeTopics(topics);
     }
 
     private void _prepareTitle()
@@ -63,11 +46,6 @@ namespace WebsocketMQTTBridge
       Console.WriteLine(title);
     }
 
-    private void _destroyMqttClient()
-    {
-      _mqttClient?.destroy();
-      _mqttClient = null;
-    }
 
     private void _destroyWebsocketServer()
     {
@@ -77,7 +55,6 @@ namespace WebsocketMQTTBridge
 
     public void destroy()
     {
-      _destroyMqttClient();
       _destroyWebsocketServer();
     }
 

@@ -8,27 +8,24 @@ namespace WebsocketMQTTBridge.Mqtt
 {
   class MqttClient
   {
-    private string _brokerIp;
-    private int _brokerPort;
     private string _clientName;
 
     private uPLibrary.Networking.M2Mqtt.MqttClient _mqttClient;
 
 
-    public MqttClient(string brokerIp = "127.0.0.1", int brokerPort = 1883)
+    public MqttClient()
     {
-      _brokerIp = brokerIp;
-      _brokerPort = brokerPort;
-      _init();
+      // TODO
     }
 
-    private void _init()
+    public void connect(string brokerIp = "127.0.0.1", int brokerPort = 1883)
     {
+      if (isConnected()) return;
       try
       {
-        ConsoleWritter.writeInfo(_brokerIp + ":" + _brokerPort.ToString(), "Connecting Mqtt Server on: ");
+        ConsoleWritter.writeInfo(brokerIp + ":" + brokerPort.ToString(), "Connecting Mqtt Server on: ");
         _clientName = "MQTTClient";
-        _mqttClient = new uPLibrary.Networking.M2Mqtt.MqttClient(_brokerIp, _brokerPort, false, null, null, uPLibrary.Networking.M2Mqtt.MqttSslProtocols.None);
+        _mqttClient = new uPLibrary.Networking.M2Mqtt.MqttClient(brokerIp, brokerPort, false, null, null, uPLibrary.Networking.M2Mqtt.MqttSslProtocols.None);
         _mqttClient.Connect(_clientName);
         _mqttClient.ConnectionClosed += _handleConnectionClosed;
         if (_mqttClient.IsConnected)
@@ -43,6 +40,7 @@ namespace WebsocketMQTTBridge.Mqtt
     }
 
     private void _handleConnectionClosed(object sender, EventArgs e)
+
     {
       ConsoleWritter.writeAlert(" ", "MQTT Client Disconnected");
     }
@@ -52,7 +50,16 @@ namespace WebsocketMQTTBridge.Mqtt
     {
       if (_mqttClient == null) return;
       ConsoleWritter.writeAlert(" ", "Stopping MQTT Client");
-      _mqttClient.Disconnect();
+      try
+      {
+        if (_mqttClient.IsConnected)
+        _mqttClient?.Disconnect();
+      }
+      catch (Exception e)
+      {
+        ConsoleWritter.writeCriticalError(e.ToString(), "MQTT Client ERROR: ");
+      }
+
     }
 
     public void subscribeTopics(List<string> topics)

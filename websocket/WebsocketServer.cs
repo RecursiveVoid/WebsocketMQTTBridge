@@ -3,6 +3,7 @@ using WebSocketSharp;
 using WebSocketSharp.Server;
 using WebsocketMQTTBridge.Util;
 using WebsocketMQTTBridge.Websocket.Behaviours;
+using WebsocketMQTTBridge.Mqtt;
 
 namespace WebsocketMQTTBridge.Websocket
 {
@@ -14,6 +15,7 @@ namespace WebsocketMQTTBridge.Websocket
     private string _ipAdress;
     private int _port;
     private WebSocketServer _websocketServer;
+    private MqttClient _mqttClient;
 
     public WebsocketServer()
     {
@@ -44,7 +46,8 @@ namespace WebsocketMQTTBridge.Websocket
         _websocketServer = new WebSocketServer("ws://" + _ipAdress + ":" + _port.ToString());
         ConsoleWritter.writeOK("OK", "Websocket Server Running: ");
         _websocketServer.Start();
-        _websocketServer.AddWebSocketService<WebSocketBehaviour>("/", () => new WebSocketBehaviour());
+        _mqttClient = new MqttClient();
+        _websocketServer.AddWebSocketService<WebSocketBehaviour>("/", () => new WebSocketBehaviour(_mqttClient));
       }
       catch (Exception e)
       {
@@ -52,11 +55,20 @@ namespace WebsocketMQTTBridge.Websocket
       }
     }
 
+
     public void stop()
     {
       ConsoleWritter.writeAlert(" ", "Stopping Websocket Server");
       if (_websocketServer == null) return;
       _websocketServer.Stop();
+      _mqttClient.disconnect();
+
+    }
+
+    private void _destroyMqttClient()
+    {
+      _mqttClient?.destroy();
+      _mqttClient = null;
     }
 
     public void destroy()
@@ -64,6 +76,7 @@ namespace WebsocketMQTTBridge.Websocket
       ConsoleWritter.writeAlert(" ", "Destroying Websocket Server");
       stop();
       _websocketServer = null;
+      _destroyMqttClient();
     }
 
   }
