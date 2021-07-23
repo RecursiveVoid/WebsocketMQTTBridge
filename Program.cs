@@ -7,7 +7,7 @@ namespace WebsocketMQTTBridge
   {
     static void Main(string[] args)
     {
-       new App();
+      _ = new App();
     }
   }
 }

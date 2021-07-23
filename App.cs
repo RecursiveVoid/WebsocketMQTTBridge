@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WebsocketMQTTBridge.Mqtt;
+using WebsocketMQTTBridge.Websocket;
 
 namespace WebsocketMQTTBridge
 {

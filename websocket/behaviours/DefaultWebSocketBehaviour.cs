@@ -4,7 +4,7 @@ using System.Text;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 
-namespace WebsocketMQTTBridge.websocket.behaviours
+namespace WebsocketMQTTBridge.Websocket.Behaviours
 {
   class DefaultWebSocketBehaviour: WebSocketBehavior
   {
@@ -29,6 +29,7 @@ namespace WebsocketMQTTBridge.websocket.behaviours
           ? "I've been balused already..."
           : "I'm not available now.";
       Send(msg);
+      // TODO extract the command and see what it is
     }
   }
 }

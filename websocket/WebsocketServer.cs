@@ -1,11 +1,10 @@
 ﻿using System;
 using WebSocketSharp;
 using WebSocketSharp.Server;
+using WebsocketMQTTBridge.Util;
+using WebsocketMQTTBridge.Websocket.Behaviours;
 
-using WebsocketMQTTBridge.util;
-using WebsocketMQTTBridge.websocket.behaviours;
-
-namespace WebsocketMQTTBridge
+namespace WebsocketMQTTBridge.Websocket
 {
  
   /* https://github.com/PingmanTools/websocket-sharp/*/
@@ -15,6 +14,20 @@ namespace WebsocketMQTTBridge
     private string _ipAdress;
     private int _port;
     private WebSocketServer _websocketServer;
+
+    public WebsocketServer()
+    {
+      _ipAdress = "127.0.0.1"; // create the server on localhost 
+      _port = 80; // default port is 80
+      _init();
+    }
+
+    public WebsocketServer(int port = 80)
+    {
+      _ipAdress = "127.0.0.1"; // create the server on localhost 
+      _port = port;
+      _init();
+    }
 
     public WebsocketServer(string ipAdress = "127.0.0.1", int port = 80)
     {

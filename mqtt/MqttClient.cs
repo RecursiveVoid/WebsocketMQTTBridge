@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt.Messages;
-using WebsocketMQTTBridge.util;
+using WebsocketMQTTBridge.Util;
 
-namespace WebsocketMQTTBridge
+namespace WebsocketMQTTBridge.Mqtt
 {
   class MqttClient
   {
@@ -13,6 +13,7 @@ namespace WebsocketMQTTBridge
     private string _clientName;
 
     private uPLibrary.Networking.M2Mqtt.MqttClient _mqttClient;
+
 
     public MqttClient(string brokerIp = "127.0.0.1", int brokerPort = 1883)
     {
