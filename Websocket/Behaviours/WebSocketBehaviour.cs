@@ -3,11 +3,17 @@ using WebSocketSharp.Server;
 using Newtonsoft.Json;
 using WebsocketMQTTBridge.JsonInterface;
 using WebsocketMQTTBridge.Util;
+using WebsocketMQTTBridge.Mqtt;
 
 namespace WebsocketMQTTBridge.Websocket.Behaviours
 {
   class WebSocketBehaviour: WebSocketBehavior
   {
+
+    public WebSocketBehaviour()
+    {
+
+    }
     protected override void OnClose(CloseEventArgs e)
     {
       base.OnClose(e);

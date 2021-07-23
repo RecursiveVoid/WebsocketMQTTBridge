@@ -75,5 +75,11 @@ namespace WebsocketMQTTBridge
       _webSocketServer = null;
     }
 
+    public void destroy()
+    {
+      _destroyMqttClient();
+      _destroyWebsocketServer();
+    }
+
   }
 }
