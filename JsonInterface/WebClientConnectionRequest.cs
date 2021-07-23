@@ -3,7 +3,7 @@
 namespace WebsocketMQTTBridge.JsonInterface
 {
   [Serializable]
-  class WebClientConnectionRequest: WebClientRequest
+  class WebClientConnectionRequest : WebClientRequest
   {
     public string ip;
     public int port;

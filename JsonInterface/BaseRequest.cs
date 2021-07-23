@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace WebsocketMQTTBridge.JsonInterface
 {
-  [Serializable]
-  class WebClientRequest: BaseRequest
+  class BaseRequest
   {
-    public string command;
-
     public override string ToString()
     {
-      return "command: " + @command;
+      return "baseRequest";
     }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using WebsocketMQTTBridge.JsonInterface;
 
 namespace WebsocketMQTTBridge.Websocket
@@ -10,25 +11,41 @@ namespace WebsocketMQTTBridge.Websocket
       // TODO
     }
 
-    public WebClientRequest extract(string request)
+    public BaseRequest extract(string request)
     {
-      var webClientRequest = JsonConvert.DeserializeObject<WebClientRequest>(request);
-      var command = webClientRequest.command.ToLower();
-      if (webClientRequest != null)
+      try 
       {
-        switch (command)
+        BaseRequest baseRequest = JsonConvert.DeserializeObject<BaseRequest>(request);
+        if (baseRequest != null)
         {
-          case "connect":
-            return JsonConvert.DeserializeObject<WebClientConnectionRequest>(request);
-          default:
+          WebClientRequest webClientRequest = JsonConvert.DeserializeObject<WebClientRequest>(request);
+          if (webClientRequest != null)
+          {
+            var command = webClientRequest.command.ToLower();
+            switch (command)
+            {
+              case "connect":
+                return JsonConvert.DeserializeObject<WebClientConnectionRequest>(request);
+              default:
+                // TODO change it to error
+                return webClientRequest;
+            }
+          }
+          else
+          {
             // TODO change it to error
             return webClientRequest;
+          }
         }
-      }
-      else
+        else
+        {
+          // TODO change it to error
+          return baseRequest;
+        }
+
+      } catch(Exception e)
       {
-        // TODO change it to error
-        return webClientRequest;
+        return new BaseRequest();
       }
     }
   }
