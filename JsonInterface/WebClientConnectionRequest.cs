@@ -1,14 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WebsocketMQTTBridge.JsonInterface
 {
   [Serializable]
   class WebClientConnectionRequest: WebClientRequest
   {
-    string ip;
-    int port;
-    string clientId;
+    public string ip;
+    public int port;
+    public string clientId;
+
+    public override string ToString()
+    {
+      return "command: " + @command  + ", ip: " + @ip + ", port: " + port + ", clientId: " + @clientId;
+    }
   }
 }
