@@ -44,7 +44,7 @@ namespace WebsocketMQTTBridge.Websocket
         _websocketServer = new WebSocketServer("ws://" + _ipAdress + ":" + _port.ToString());
         ConsoleWritter.writeOK("OK", "Websocket Server Running: ");
         _websocketServer.Start();
-        _websocketServer.AddWebSocketService<DefaultWebSocketBehaviour>("/");
+        _websocketServer.AddWebSocketService<WebSocketBehaviour>("/");
       }
       catch (Exception e)
       {
