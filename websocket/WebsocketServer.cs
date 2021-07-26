@@ -47,7 +47,7 @@ namespace WebsocketMQTTBridge.Websocket
         ConsoleWritter.writeOK("OK", "Websocket Server Running: ");
         _websocketServer.Start();
         _mqttClient = new MqttClient();
-        _websocketServer.AddWebSocketService<WebSocketBehaviour>("/", () => new WebSocketBehaviour(_mqttClient));
+        _websocketServer.AddWebSocketService("/", () => new WebSocketBehaviour(_mqttClient));
       }
       catch (Exception e)
       {
