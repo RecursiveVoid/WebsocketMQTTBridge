@@ -26,6 +26,10 @@ namespace WebsocketMQTTBridge.Websocket
             {
               case "connect":
                 return JsonConvert.DeserializeObject<WebClientConnectionRequest>(request);
+              case "subscribe":
+                return JsonConvert.DeserializeObject<WebClientSubscriptionRequest>(request);
+              case "publish":
+                return JsonConvert.DeserializeObject<WebClientPublishRequest>(request);
               default:
                 // TODO change it to error
                 return webClientRequest;
