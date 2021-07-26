@@ -64,7 +64,7 @@ namespace WebsocketMQTTBridge.Mqtt
 
     public void subscribeTopics(List<string> topics)
     {
-      if (_mqttClient == null) { ConsoleWritter.writeAlert("Server Connection not avaliable", "Cannot Subscribe to MQTT topic: "); return; }
+      if (_mqttClient == null) { ConsoleWritter.writeCriticalError("Server Connection not avaliable", "Cannot Subscribe to MQTT topic: "); return; }
       var qosLevel = MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE;
       ConsoleWritter.writeInfo(qosLevel.ToString(), "Qos Level: ");
       byte[] qosLevels = new byte[topics.Count];
@@ -86,7 +86,14 @@ namespace WebsocketMQTTBridge.Mqtt
 
     private void _handlePublishRecieved(object sender, MqttMsgPublishEventArgs e)
     {
-      // TODO
+      // convert string to objects like JSON
+      ConsoleWritter.writeInfo(Encoding.UTF8.GetString(e.Message), "MQTT SERVER RESPONSE: ");
+    }
+
+    public void publish(string topic, string msg)
+    {
+      msg = msg.Replace("'", "\"");
+      _mqttClient.Publish(topic, Encoding.UTF8.GetBytes(msg));
     }
 
     public bool isConnected()

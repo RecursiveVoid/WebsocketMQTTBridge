@@ -12,10 +12,13 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
   {
 
     private MqttClient _mqttClient;
+    private MqttRequestHandler _mqttRequestHandler;
+
     public WebSocketBehaviour(MqttClient mqttClient)
     {
       _mqttClient = mqttClient;
-      _prepareMqttClient();
+      _mqttRequestHandler = new MqttRequestHandler(_mqttClient);
+    //  _prepareMqttClient();
     }
     protected override void OnClose(CloseEventArgs e)
     {
@@ -37,10 +40,12 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
 
     protected override void OnMessage(MessageEventArgs e)
     {
-      var webRequestExtractor = new WebRequestExtractor();
       var request = e.Data;
-      var extractedRequest = webRequestExtractor.extract(request);
-      ConsoleWritter.writeInfo(extractedRequest.ToString(), "RECIEVED FROM CLIENT:");
+      var webRequestExtractor = new WebRequestExtractor();
+      var extractedWebRequest = webRequestExtractor.extract(request);
+      ConsoleWritter.writeInfo(extractedWebRequest.ToString(), "RECIEVED FROM CLIENT:");
+      _mqttRequestHandler.processRequest(extractedWebRequest);
+
       /*
 var msg = e.Data == "BALUS"
     ? "I've been balused already..."
