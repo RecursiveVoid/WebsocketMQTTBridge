@@ -18,13 +18,11 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
     {
       _mqttClient = mqttClient;
       _mqttRequestHandler = new MqttRequestHandler(_mqttClient);
-    //  _prepareMqttClient();
     }
     protected override void OnClose(CloseEventArgs e)
     {
       base.OnClose(e);
       _mqttClient.disconnect();
-      // _mqttClient.disconnect();
     }
 
     protected override void OnError(ErrorEventArgs e)
@@ -35,7 +33,6 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
     protected override void OnOpen()
     {
       base.OnOpen();
-      _prepareMqttClient();
     }
 
     protected override void OnMessage(MessageEventArgs e)
@@ -53,21 +50,6 @@ var msg = e.Data == "BALUS"
 Send(msg);
 */
       // TODO extract the command and see what it is
-    }
-
-    private void _prepareMqttClient()
-    {
-      if (!_mqttClient.isConnected())
-      {
-        _mqttClient.connect();
-        _subscribeToMqttBroker();
-      }
-    }
-
-    private void _subscribeToMqttBroker()
-    {
-      List<string> topics = new List<string> { "events/inputs", "res/version", "res/peripherals/iapi", "peripherals/iapi" };
-      _mqttClient.subscribeTopics(topics);
     }
   }
 }
