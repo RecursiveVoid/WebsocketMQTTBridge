@@ -61,7 +61,7 @@ namespace WebsocketMQTTBridge.Mqtt
     {
       if (!_mqttClient.isConnected())
       {
-        _mqttClient.connect(webClientConnectionRequest.ip, webClientConnectionRequest.port);
+        _mqttClient.connect(webClientConnectionRequest.ip, webClientConnectionRequest.port, webClientConnectionRequest.clientId);
       }
       else
       {

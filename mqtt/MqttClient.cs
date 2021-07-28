@@ -8,26 +8,27 @@ namespace WebsocketMQTTBridge.Mqtt
 {
   class MqttClient
   {
-    private string _clientName;
 
     private uPLibrary.Networking.M2Mqtt.MqttClient _mqttClient;
+    private List<string> _subscribedTopics;
 
 
     public MqttClient()
     {
-      // TODO
+      _subscribedTopics = new List<string>();
     }
 
-    public void connect(string brokerIp = "127.0.0.1", int brokerPort = 1883)
+    public void connect(string brokerIp = "127.0.0.1", int brokerPort = 1883, string clientName = "client")
     {
       if (isConnected()) return;
       try
       {
         ConsoleWritter.writeInfo(brokerIp + ":" + brokerPort.ToString(), "Connecting Mqtt Server on: ");
-        _clientName = "MQTTClient";
         _mqttClient = new uPLibrary.Networking.M2Mqtt.MqttClient(brokerIp, brokerPort, false, null, null, uPLibrary.Networking.M2Mqtt.MqttSslProtocols.None);
-        _mqttClient.Connect(_clientName);
+        _mqttClient.Connect(clientName);
         _mqttClient.ConnectionClosed += _handleConnectionClosed;
+        _mqttClient.MqttMsgSubscribed += _handleSubscribed;
+        _mqttClient.MqttMsgPublishReceived += _handlePublishRecieved;
         if (_mqttClient.IsConnected)
         {
           ConsoleWritter.writeOK(_mqttClient.ClientId, "MQTT Client Running: ");
@@ -46,14 +47,17 @@ namespace WebsocketMQTTBridge.Mqtt
     }
 
 
-    public void disconnect()
+    public void disconnect() // there might be a error
     {
       if (_mqttClient == null) return;
       ConsoleWritter.writeAlert(" ", "Stopping MQTT Client");
       try
       {
-        if (_mqttClient.IsConnected)
-        _mqttClient?.Disconnect();
+        unsubscribe();
+        _mqttClient.Disconnect();
+        _mqttClient.ConnectionClosed -= _handleConnectionClosed;
+        _mqttClient.MqttMsgSubscribed -= _handleSubscribed;
+        _mqttClient.MqttMsgPublishReceived -= _handlePublishRecieved;
       }
       catch (Exception e)
       {
@@ -68,15 +72,28 @@ namespace WebsocketMQTTBridge.Mqtt
       var qosLevel = MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE;
       ConsoleWritter.writeInfo(qosLevel.ToString(), "Qos Level: ");
       byte[] qosLevels = new byte[topics.Count];
-      topics.ForEach(topic =>
+      for (int i = topics.Count - 1; i >= 0; i--)
       {
-        ConsoleWritter.writeInfo(topic, "Subscribing to: ");
-        var topicIndex = topics.IndexOf(topic);
-        qosLevels[topicIndex] = qosLevel;
-      });
+        if (_subscribedTopics.Contains(topics[i]))
+        {
+          topics.RemoveAt(i);
+        } else
+        {
+          qosLevels[i] = qosLevel;
+          ConsoleWritter.writeInfo(topics[i], "Subscribing to: ");
+          _subscribedTopics.Add(topics[i]);
+        }
+      }
+      if (topics.Count <= 0) return;
       _mqttClient.Subscribe(topics.ToArray(), qosLevels);
-      _mqttClient.MqttMsgSubscribed += _handleSubscribed;
-      _mqttClient.MqttMsgPublishReceived += _handlePublishRecieved;
+    }
+
+    public void unsubscribe()
+    {
+      if (_mqttClient == null) { ConsoleWritter.writeCriticalError("Server Connection not avaliable", "Cannot unSubscribe to MQTT topic: "); return; }
+      if (_subscribedTopics == null || _subscribedTopics.Count <= 0) { ConsoleWritter.writeCriticalError("No Subscribtion", "Cannot unSubscribe to MQTT topic: "); return; }
+      ConsoleWritter.writeInfo(_subscribedTopics.ToString(), "Unsubscribing from all subscribed topics from MQTT: ");
+      _mqttClient.Unsubscribe(_subscribedTopics.ToArray());
     }
 
     private void _handleSubscribed(object sender, MqttMsgSubscribedEventArgs e)
