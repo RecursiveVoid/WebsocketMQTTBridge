@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using WebsocketMQTTBridge.JsonInterface;
+using WebsocketMQTTBridge.JsonInterface.WebClientRequestInterface;
 using WebsocketMQTTBridge.Util;
 
 namespace WebsocketMQTTBridge.Mqtt
@@ -14,7 +15,7 @@ namespace WebsocketMQTTBridge.Mqtt
       _mqttClient = mqttClient;
     }
 
-    public void processRequest(BaseRequest baseRequest)
+    public void processRequest(BaseJsonInterface baseRequest)
     {
       if (_mqttClient == null) return;
       if (baseRequest is WebClientConnectionRequest webClientConnectionRequest)

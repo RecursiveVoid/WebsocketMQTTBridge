@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebsocketMQTTBridge.JsonInterface
+namespace WebsocketMQTTBridge.JsonInterface.WebClientRequestInterface
 {
   [Serializable]
   class WebClientConnectionRequest: WebClientRequest

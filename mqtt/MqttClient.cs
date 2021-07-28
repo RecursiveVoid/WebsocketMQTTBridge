@@ -112,7 +112,8 @@ namespace WebsocketMQTTBridge.Mqtt
     private void _handlePublishRecieved(object sender, MqttMsgPublishEventArgs e)
     {
       // convert string to objects like JSON and forward to websocket..
-      ConsoleWritter.writeRecieved(Encoding.UTF8.GetString(e.Message), "Response from Mqtt Server: ");
+      var message = Encoding.UTF8.GetString(e.Message);
+      ConsoleWritter.writeRecieved(message, "Response from Mqtt Server: ");
     }
 
     public void publish(string topic, string msg)

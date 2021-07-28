@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WebsocketMQTTBridge.JsonInterface
+namespace WebsocketMQTTBridge.JsonInterface.WebClientRequestInterface
 {
   [Serializable]
   class WebClientSubscriptionRequest: WebClientRequest

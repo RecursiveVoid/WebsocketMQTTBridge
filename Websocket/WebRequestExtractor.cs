@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using WebsocketMQTTBridge.JsonInterface;
+using WebsocketMQTTBridge.JsonInterface.WebClientRequestInterface;
 
 namespace WebsocketMQTTBridge.Websocket
 {
@@ -11,11 +12,11 @@ namespace WebsocketMQTTBridge.Websocket
       // TODO
     }
 
-    public BaseRequest extract(string request)
+    public BaseJsonInterface extract(string request)
     {
       try 
       {
-        BaseRequest baseRequest = JsonConvert.DeserializeObject<BaseRequest>(request);
+        BaseJsonInterface baseRequest = JsonConvert.DeserializeObject<BaseJsonInterface>(request);
         if (baseRequest != null)
         {
           WebClientRequest webClientRequest = JsonConvert.DeserializeObject<WebClientRequest>(request);
@@ -49,7 +50,7 @@ namespace WebsocketMQTTBridge.Websocket
 
       } catch(Exception e)
       {
-        return new BaseRequest();
+        return new BaseJsonInterface();
       }
     }
   }
