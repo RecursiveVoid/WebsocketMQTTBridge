@@ -40,7 +40,7 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
       var request = e.Data;
       var webRequestExtractor = new WebRequestExtractor();
       var extractedWebRequest = webRequestExtractor.extract(request);
-      ConsoleWritter.writeInfo(extractedWebRequest.ToString(), "RECIEVED FROM CLIENT:");
+      ConsoleWritter.writeRecieved(extractedWebRequest.ToString(), "Request From Websocket Client: ");
       _mqttRequestHandler.processRequest(extractedWebRequest);
 
       /*

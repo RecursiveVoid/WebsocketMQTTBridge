@@ -35,12 +35,12 @@ namespace WebsocketMQTTBridge.Mqtt
       {
         // TODO convert it to a method or something
         string request = "{ 'device': '"+ webClientPublishRequest .device+"', 'method': '"+ webClientPublishRequest .method+"', 'id': "+ webClientPublishRequest .id+" }";
-        ConsoleWritter.writeInfo(request, "PUBLISHING: ");
+        ConsoleWritter.writeSended(request, "Request To MQTT Server: ");
         _mqttClient.publish(webClientPublishRequest.topic, request);
       }
       else
       {
-        ConsoleWritter.writeAlert(" Client is disconnected.", "MQTT Client Cannot Subscribe");
+        ConsoleWritter.writeAlert("Client is disconnected.", "MQTT Client Cannot Subscribe");
       }
     }
 
