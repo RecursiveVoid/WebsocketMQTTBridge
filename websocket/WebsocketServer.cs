@@ -5,6 +5,7 @@ using WebsocketMQTTBridge.Util;
 using WebsocketMQTTBridge.Websocket.Behaviours;
 using WebsocketMQTTBridge.Mqtt;
 
+
 namespace WebsocketMQTTBridge.Websocket
 {
  
@@ -54,7 +55,6 @@ namespace WebsocketMQTTBridge.Websocket
         ConsoleWritter.writeCriticalError(e.ToString(), "Websocket Server ERROR: ");
       }
     }
-
 
     public void stop()
     {

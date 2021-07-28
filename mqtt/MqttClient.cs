@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt.Messages;
+using WebsocketMQTTBridge.MqttEventArgs;
 using WebsocketMQTTBridge.Util;
 
 namespace WebsocketMQTTBridge.Mqtt
@@ -12,6 +13,7 @@ namespace WebsocketMQTTBridge.Mqtt
     private uPLibrary.Networking.M2Mqtt.MqttClient _mqttClient;
     private List<string> _subscribedTopics;
 
+    public event EventHandler<MqttServerResponseArgs> onMqttServerResponse;
 
     public MqttClient()
     {
@@ -114,6 +116,8 @@ namespace WebsocketMQTTBridge.Mqtt
       // convert string to objects like JSON and forward to websocket..
       var message = Encoding.UTF8.GetString(e.Message);
       ConsoleWritter.writeRecieved(message, "Response from Mqtt Server: ");
+      var mqttServerResnponseArgs = new MqttServerResponseArgs(message);
+      onMqttServerResponse?.Invoke(this, mqttServerResnponseArgs);
     }
 
     public void publish(string topic, string msg)

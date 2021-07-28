@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using WebsocketMQTTBridge.JsonInterface;
 using WebsocketMQTTBridge.Util;
 using WebsocketMQTTBridge.Mqtt;
+using WebsocketMQTTBridge.MqttEventArgs;
 using System.Collections.Generic;
 
 namespace WebsocketMQTTBridge.Websocket.Behaviours
@@ -17,17 +18,20 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
     public WebSocketBehaviour(MqttClient mqttClient)
     {
       _mqttClient = mqttClient;
+      _mqttClient.onMqttServerResponse += _handleOnMqttServerReponse;
       _mqttRequestHandler = new MqttRequestHandler(_mqttClient);
     }
     protected override void OnClose(CloseEventArgs e)
     {
       base.OnClose(e);
+      _mqttClient.onMqttServerResponse -= _handleOnMqttServerReponse;
       _mqttClient.disconnect();
     }
 
     protected override void OnError(ErrorEventArgs e)
     {
       base.OnError(e);
+      _mqttClient.onMqttServerResponse -= _handleOnMqttServerReponse;
       _mqttClient.disconnect();
     }
     protected override void OnOpen()
@@ -50,6 +54,13 @@ var msg = e.Data == "BALUS"
 Send(msg);
 */
       // TODO extract the command and see what it is
+    }
+
+    private void _handleOnMqttServerReponse(object sender, MqttServerResponseArgs responseArgs)
+    {
+      var response = responseArgs.response;
+      // TODO convert it to a form of {WTF is going on kinda  +  response }
+      Send(response);
     }
   }
 }

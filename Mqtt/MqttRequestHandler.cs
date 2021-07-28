@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using WebsocketMQTTBridge.JsonInterface;
 using WebsocketMQTTBridge.JsonInterface.WebClientRequestInterface;
+using WebsocketMQTTBridge.MqttEventArgs;
 using WebsocketMQTTBridge.Util;
 
 namespace WebsocketMQTTBridge.Mqtt
@@ -10,6 +11,7 @@ namespace WebsocketMQTTBridge.Mqtt
   class MqttRequestHandler
   {
     private MqttClient _mqttClient;
+
     public MqttRequestHandler(MqttClient mqttClient)
     {
       _mqttClient = mqttClient;
