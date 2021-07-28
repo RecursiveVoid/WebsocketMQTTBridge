@@ -7,11 +7,13 @@ namespace WebsocketMQTTBridge.Util
   static class ConsoleWritter
   {
     // \n
-    public static readonly ConsoleColor OK_COLOR = ConsoleColor.Green;
+    public static readonly ConsoleColor OK_COLOR = ConsoleColor.Cyan;
     public static readonly ConsoleColor CRITICAL_ERROR_COLOR = ConsoleColor.Red;
     public static readonly ConsoleColor INFO_COLOR = ConsoleColor.Cyan;
     public static readonly ConsoleColor ALERT_COLOR = ConsoleColor.Yellow;
     public static readonly ConsoleColor MESSAGE_COLOR = ConsoleColor.Gray;
+    public static readonly ConsoleColor RECIEVED_MESSAGE = ConsoleColor.Magenta;
+    public static readonly ConsoleColor SENDED_MESSAGE = ConsoleColor.Green;
 
     public static void writeOK(string message, string topic = "")
     {
@@ -31,6 +33,16 @@ namespace WebsocketMQTTBridge.Util
     {
       ConsoleWritter.write(message, ALERT_COLOR, topic);
     }
+    public static void writeRecieved(string message, string topic = "")
+    {
+      ConsoleWritter.write(message, RECIEVED_MESSAGE, topic);
+    }
+
+    public static void writeSended(string message, string topic = "")
+    {
+      ConsoleWritter.write(message, SENDED_MESSAGE, topic);
+    }
+
 
     private static void newLine()
     {
