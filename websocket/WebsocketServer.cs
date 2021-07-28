@@ -75,8 +75,8 @@ namespace WebsocketMQTTBridge.Websocket
     {
       ConsoleWritter.writeAlert(" ", "Destroying Websocket Server");
       stop();
-      _websocketServer = null;
       _destroyMqttClient();
+      _websocketServer = null;
     }
 
   }
