@@ -8,7 +8,7 @@ namespace WebsocketMQTTBridge.JsonInterface
   {
     public override string ToString()
     {
-      return "baseRequest";
+      return "blank request...";
     }
   }
 }
