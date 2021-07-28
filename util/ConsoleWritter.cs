@@ -39,7 +39,7 @@ namespace WebsocketMQTTBridge.Util
 
     private static void write(string message, ConsoleColor color, string topic = "")
     {
-
+      ConsoleWritter.newLine();
       if (topic.Length > 0)
       {
         ConsoleWritter.writeTopic(topic, color);
