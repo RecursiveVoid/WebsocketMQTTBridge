@@ -14,11 +14,11 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
   class WebSocketBehaviour: WebSocketBehavior
   {
 
-    private MqttClient _mqttClient;
-    private MqttRequestHandler _mqttRequestHandler;
-    private WebsocketResponseCreator _websocketResponseCreator;
+    private readonly MqttClient _mqttClient;
+    private readonly MqttRequestHandler _mqttRequestHandler;
+    private readonly WebsocketResponseCreator _websocketResponseCreator;
 
-    private readonly int SESSION_AMOUNT_LIMIT = 1;
+    private const int SESSION_AMOUNT_LIMIT = 1;
 
     public WebSocketBehaviour(MqttClient mqttClient)
     {
@@ -27,6 +27,7 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
       _mqttClient.onMqttServerResponse += _handleOnMqttServerReponse;
       _mqttRequestHandler = new MqttRequestHandler(_mqttClient);
     }
+
     protected override void OnClose(CloseEventArgs e)
     {
       base.OnClose(e);
@@ -96,8 +97,8 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
     private void _handleOnMqttServerReponse(object sender, MqttServerResponseArgs responseArgs)
     {
       var response = responseArgs.response;
-      // TODO convert it to a form of {WTF is going on kinda  +  response }
-      Send(response);
+      var msg = _websocketResponseCreator.createMqttResponse(response);
+      Send(msg);
     }
   }
 }
