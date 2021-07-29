@@ -15,7 +15,7 @@ namespace WebsocketMQTTBridge.JsonInterface.WebClientRequestInterface
 
     public override string ToString()
     {
-      return "command: " + @command + ", topic: " + @topic + ", device: " + @device + ", method: " + @method + "id: " + id;
+      return "\"command\": \"" + @command + "\", \"topic\": \"" + @topic + "\", \"device\": \"" + @device + "\", \"method\": \"" + @method + "\", \"id\":\" " + id+ "\"";
     }
   }
 }
