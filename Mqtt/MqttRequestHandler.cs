@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using WebsocketMQTTBridge.JsonInterface;
 using WebsocketMQTTBridge.JsonInterface.WebClientRequestInterface;
-using WebsocketMQTTBridge.MqttEventArgs;
 using WebsocketMQTTBridge.Util;
 
 namespace WebsocketMQTTBridge.Mqtt
