@@ -31,7 +31,7 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
     protected override void OnClose(CloseEventArgs e)
     {
       base.OnClose(e);
-      ConsoleWritter.writeInfo(Sessions.Count.ToString(), "Connection is Closed to Web Client:");
+      ConsoleWriter.writeInfo(Sessions.Count.ToString(), "Connection is Closed to Web Client:");
       _mqttClient.onMqttServerResponse -= _handleOnMqttServerReponse;
       _mqttClient.disconnect();
     }
@@ -53,8 +53,8 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
       if (sessionAmount > SESSION_AMOUNT_LIMIT)
       {
 
-        ConsoleWritter.writeAlert(sessionAmount.ToString(), "Connected Web Client Limit Exceed ");
-        ConsoleWritter.writeAlert(sessionAmount.ToString(), "Closing Session... ");
+        ConsoleWriter.writeAlert(sessionAmount.ToString(), "Connected Web Client Limit Exceed ");
+        ConsoleWriter.writeAlert(sessionAmount.ToString(), "Closing Session... ");
         var msg = _websocketResponseCreator.createConnectionRejectedResponse();
         Send(msg);
         Sessions.CloseSession(currentSessionId);
@@ -63,7 +63,7 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
         // CHECK IF CONNECTION IS VALID
         var msg = _websocketResponseCreator.createConnectionOkResponse();
         Send(msg);
-        ConsoleWritter.writeInfo(sessionAmount.ToString(), "Web Client Connected:");
+        ConsoleWriter.writeInfo(sessionAmount.ToString(), "Web Client Connected:");
       }
 
       
@@ -78,7 +78,7 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
       switch (requestType)
       {
         case WebclientRequestType.MQTT:
-          ConsoleWritter.writeRecieved(extractedWebRequest.ToString(), "Request From Websocket Client: ");
+          ConsoleWriter.writeRecieved(extractedWebRequest.ToString(), "Request From Websocket Client: ");
           var messageToClient = _websocketResponseCreator.createMqttOkResponse((WebClientRequest) extractedWebRequest);
           Send(messageToClient);
           _mqttRequestHandler.processRequest(extractedWebRequest);

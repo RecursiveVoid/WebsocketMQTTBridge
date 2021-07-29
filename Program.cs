@@ -13,7 +13,7 @@ namespace WebsocketMQTTBridge
       var output = Console.ReadLine();
       if (output.ToLower().Equals("exit")) {
         app.destroy();
-        ConsoleWritter.writeInfo("Press any key to exit", "The System has been stopped... ");
+        ConsoleWriter.writeInfo("Press any key to exit", "The System has been stopped... ");
       }
       Console.ReadLine();
       // System.Threading.Thread.Sleep(10000);

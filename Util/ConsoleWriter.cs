@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WebsocketMQTTBridge.Util
 {
-  static class ConsoleWritter
+  static class ConsoleWriter
   {
     // \n
     public static readonly ConsoleColor OK_COLOR = ConsoleColor.Cyan;
@@ -17,30 +17,30 @@ namespace WebsocketMQTTBridge.Util
 
     public static void writeOK(string message, string topic = "")
     {
-      ConsoleWritter.write(message, OK_COLOR, topic);
+      ConsoleWriter.write(message, OK_COLOR, topic);
     }
     public static void writeCriticalError(string message, string topic = "")
     {
-      ConsoleWritter.write(message, CRITICAL_ERROR_COLOR, topic);
+      ConsoleWriter.write(message, CRITICAL_ERROR_COLOR, topic);
     }
 
     public static void writeInfo(string message, string topic = "")
     {
-      ConsoleWritter.write(message, INFO_COLOR, topic);
+      ConsoleWriter.write(message, INFO_COLOR, topic);
     }
 
     public static void writeAlert(string message, string topic = "")
     {
-      ConsoleWritter.write(message, ALERT_COLOR, topic);
+      ConsoleWriter.write(message, ALERT_COLOR, topic);
     }
     public static void writeRecieved(string message, string topic = "")
     {
-      ConsoleWritter.write(message, RECIEVED_MESSAGE, topic);
+      ConsoleWriter.write(message, RECIEVED_MESSAGE, topic);
     }
 
     public static void writeSended(string message, string topic = "")
     {
-      ConsoleWritter.write(message, SENDED_MESSAGE, topic);
+      ConsoleWriter.write(message, SENDED_MESSAGE, topic);
     }
 
 
@@ -51,13 +51,13 @@ namespace WebsocketMQTTBridge.Util
 
     private static void write(string message, ConsoleColor color, string topic = "")
     {
-      ConsoleWritter.newLine();
+      ConsoleWriter.newLine();
       if (topic.Length > 0)
       {
-        ConsoleWritter.writeTopic(topic, color);
+        ConsoleWriter.writeTopic(topic, color);
       }
-      ConsoleWritter.writeMessage(message);
-      ConsoleWritter.newLine();
+      ConsoleWriter.writeMessage(message);
+      ConsoleWriter.newLine();
     }
 
     private static void writeMessage(string message)
