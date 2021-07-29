@@ -11,27 +11,33 @@ namespace WebsocketMQTTBridge.Websocket
 
     public string createConnectionOkResponse()
     {
-      return "{\"command\": \"ok\", \"message\": \"socketConnectionOk\"}";
+      return "{\"command\": \"ok\",\"from\": \"socket\" ,\"message\": \"connectionOk\"}";
     }
 
     public string createConnectionRejectedResponse()
     {
-      return "{\"command\": \"error\", \"message\": \"socketConnectionRejected.\"}";
+      return "{\"command\": \"error\",\"from\": \"socket\" ,\"message\": \"connectionRejected.\"}";
     }
 
     public string createConnectionError()
     {
-      return "{\"command\": \"error\", \"message\": \"connectionError.\"}";
+      return "{\"command\": \"error\", \"from\": \"socket\" ,\"message\": \"connectionError.\"}";
     }
 
     public string createInvalidRequestResponse()
     {
-      return "{\"command\": \"error\", \"message\": \"invalidResponse.\"}";
+      return "{\"command\": \"error\", \"from\": \"socket\",\"message\": \"invalidResponse.\"}";
     }
 
     public string createMqttOkResponse(WebClientRequest request)
     {
-      return "{\"command\": \"ok\", \"message\": \"" + request.command + "\"}";
+      return "{\"command\": \"ok\", \"from\": \"mqtt\" ,\"message\": \"" + request.command + "\"}";
+    }
+
+    public string createMqttResponse(string response)
+    {
+      return "{\"command\": \"response\", \"from\": \"mqtt\" ,\"message\":" + response + "}";
     }
   }
 }
+

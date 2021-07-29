@@ -43,22 +43,22 @@ namespace WebsocketMQTTBridge.Websocket
     {
       try
       {
-        ConsoleWritter.writeInfo(_ipAdress + ":" + _port.ToString(), "Creating Websocket server on: ");
+        ConsoleWriter.writeInfo(_ipAdress + ":" + _port.ToString(), "Creating Websocket server on: ");
         _websocketServer = new WebSocketServer("ws://" + _ipAdress + ":" + _port.ToString());
-        ConsoleWritter.writeOK("OK", "Websocket Server Running: ");
+        ConsoleWriter.writeOK("OK", "Websocket Server Running: ");
         _websocketServer.Start();
         _mqttClient = new MqttClient();
         _websocketServer.AddWebSocketService("/", () => new WebSocketBehaviour(_mqttClient));
       }
       catch (Exception e)
       {
-        ConsoleWritter.writeCriticalError(e.ToString(), "Websocket Server ERROR: ");
+        ConsoleWriter.writeCriticalError(e.ToString(), "Websocket Server ERROR: ");
       }
     }
 
     public void stop()
     {
-      ConsoleWritter.writeAlert(" ", "Stopping Websocket Server");
+      ConsoleWriter.writeAlert(" ", "Stopping Websocket Server");
       if (_websocketServer == null) return;
       _websocketServer.Stop();
       _mqttClient.disconnect();
@@ -73,7 +73,7 @@ namespace WebsocketMQTTBridge.Websocket
 
     public void destroy()
     {
-      ConsoleWritter.writeAlert(" ", "Destroying Websocket Server");
+      ConsoleWriter.writeAlert(" ", "Destroying Websocket Server");
       stop();
       _destroyMqttClient();
       _websocketServer = null;
