@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection;
 using WebsocketMQTTBridge.Mqtt;
 using WebsocketMQTTBridge.Websocket;
 
@@ -16,7 +17,10 @@ namespace WebsocketMQTTBridge
 
     private void _init()
     {
-      _prepareTitle();
+      _prepareTitle(); 
+      Console.WriteLine("=============================================================\n");
+      _prepareVersionInformation();
+      Console.WriteLine("=============================================================\n");
       try
       {
         _prepareWebsocketServer();
@@ -46,6 +50,17 @@ namespace WebsocketMQTTBridge
       Console.WriteLine(title);
     }
 
+    private void _prepareVersionInformation()
+    {
+      var fullNameInfo = getProgramName();
+      Console.WriteLine(fullNameInfo);
+      Console.WriteLine("Made with love, Original author: M. Ergin Tuerk \n");
+    }
+
+    public string getProgramName()
+    {
+      return Assembly.GetExecutingAssembly().GetName().FullName;
+    }
 
     private void _destroyWebsocketServer()
     {
