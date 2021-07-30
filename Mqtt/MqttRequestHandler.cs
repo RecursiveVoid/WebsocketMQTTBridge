@@ -5,7 +5,7 @@ using WebsocketMQTTBridge.Util;
 
 namespace WebsocketMQTTBridge.Mqtt
 {
-  class MqttRequestHandler
+  public class MqttRequestHandler
   {
     private MqttClient _mqttClient;
 

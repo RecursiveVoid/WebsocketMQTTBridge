@@ -7,7 +7,7 @@ using WebsocketMQTTBridge.Util;
 
 namespace WebsocketMQTTBridge.Mqtt
 {
-  class MqttClient
+  public class MqttClient
   {
 
     private uPLibrary.Networking.M2Mqtt.MqttClient _mqttClient;

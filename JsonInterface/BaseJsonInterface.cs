@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WebsocketMQTTBridge.JsonInterface
 {
-  class BaseJsonInterface
+  public class BaseJsonInterface
   {
     public override string ToString()
     {
