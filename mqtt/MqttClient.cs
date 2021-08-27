@@ -59,13 +59,8 @@ namespace WebsocketMQTTBridge.Mqtt
       try
       {
         unsubscribe();
-        _mqttClient.Disconnect();
-        ConsoleWriter.writeAlert("MQTT Connection Closed", "Unlistening Event: ");
-        _mqttClient.ConnectionClosed -= _handleConnectionClosed;
-        ConsoleWriter.writeAlert("MQTT Subscribed", "Unlistening Event: ");
-        _mqttClient.MqttMsgSubscribed -= _handleSubscribed;
-        ConsoleWriter.writeAlert("MQTT Publish Recieved", "Unlistening Event: ");
-        _mqttClient.MqttMsgPublishReceived -= _handlePublishRecieved;
+        _disconnectMqttClient();
+        _destroyEvents();
       }
       catch (Exception e)
       {
@@ -74,36 +69,71 @@ namespace WebsocketMQTTBridge.Mqtt
 
     }
 
+    private void _disconnectMqttClient()
+    {
+      if (isConnected())
+      {
+        _mqttClient.Disconnect();
+      }
+    }
+
+    private void _destroyEvents()
+    {
+      if (_mqttClient == null) return;
+      ConsoleWriter.writeAlert("MQTT Connection Closed", "Unlistening Event: ");
+      _mqttClient.ConnectionClosed -= _handleConnectionClosed;
+      ConsoleWriter.writeAlert("MQTT Subscribed", "Unlistening Event: ");
+      _mqttClient.MqttMsgSubscribed -= _handleSubscribed;
+      ConsoleWriter.writeAlert("MQTT Publish Recieved", "Unlistening Event: ");
+      _mqttClient.MqttMsgPublishReceived -= _handlePublishRecieved;
+    }
+
     public void subscribeTopics(List<string> topics)
     {
       if (_mqttClient == null) { ConsoleWriter.writeCriticalError("Server Connection not avaliable", "Cannot Subscribe to MQTT topic: "); return; }
-      var qosLevel = MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE;
-      ConsoleWriter.writeInfo(qosLevel.ToString(), "Qos Level: ");
-      byte[] qosLevels = new byte[topics.Count];
-      for (int i = topics.Count - 1; i >= 0; i--)
+      try
       {
-        if (_subscribedTopics.Contains(topics[i]))
+
+        var qosLevel = MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE;
+        ConsoleWriter.writeInfo(qosLevel.ToString(), "Qos Level: ");
+        byte[] qosLevels = new byte[topics.Count];
+        for (int i = topics.Count - 1; i >= 0; i--)
         {
-          ConsoleWriter.writeAlert(topics[i], "MQTT already subscribe to topic: ");
-          topics.RemoveAt(i);
-        } else
-        {
-          qosLevels[i] = qosLevel;
-          ConsoleWriter.writeInfo(topics[i], "MQTT Subscribing to: ");
-          _subscribedTopics.Add(topics[i]);
+          if (_subscribedTopics.Contains(topics[i]))
+          {
+            ConsoleWriter.writeAlert(topics[i], "MQTT already subscribe to topic: ");
+            topics.RemoveAt(i);
+          }
+          else
+          {
+            qosLevels[i] = qosLevel;
+            ConsoleWriter.writeInfo(topics[i], "MQTT Subscribing to: ");
+            _subscribedTopics.Add(topics[i]);
+          }
         }
+        if (topics.Count <= 0) return;
+        _mqttClient.Subscribe(topics.ToArray(), qosLevels);
       }
-      if (topics.Count <= 0) return;
-      _mqttClient.Subscribe(topics.ToArray(), qosLevels);
+      catch (Exception e)
+      {
+        ConsoleWriter.writeCriticalError(e.ToString(), "MQTT Client Subscription ERROR: ");
+      }
     }
 
     public void unsubscribe()
     {
       if (_mqttClient == null) { ConsoleWriter.writeCriticalError("Server Connection not avaliable", "Cannot unSubscribe to MQTT topic: "); return; }
       if (_subscribedTopics == null || _subscribedTopics.Count <= 0) { ConsoleWriter.writeCriticalError("No Subscribtion", "Cannot unSubscribe to MQTT topic: "); return; }
-      ConsoleWriter.writeAlert(_subscribedTopics.ToString(), "Unsubscribing from all subscribed topics from MQTT: ");
-      _mqttClient.Unsubscribe(_subscribedTopics.ToArray());
-      _subscribedTopics.Clear();
+      try
+      {
+        ConsoleWriter.writeAlert(_subscribedTopics.ToString(), "Unsubscribing from all subscribed topics from MQTT: ");
+        _mqttClient.Unsubscribe(_subscribedTopics.ToArray());
+        _subscribedTopics.Clear();
+      }
+      catch (Exception e)
+      {
+        ConsoleWriter.writeCriticalError(e.ToString(), "MQTT Client Un-Subscription ERROR: ");
+      }
     }
 
     private void _handleSubscribed(object sender, MqttMsgSubscribedEventArgs e)
@@ -113,17 +143,31 @@ namespace WebsocketMQTTBridge.Mqtt
 
     private void _handlePublishRecieved(object sender, MqttMsgPublishEventArgs e)
     {
-      // convert string to objects like JSON and forward to websocket..
-      var message = Encoding.UTF8.GetString(e.Message);
-      ConsoleWriter.writeRecieved(message, "Response from Mqtt Server: ");
-      var mqttServerResnponseArgs = new MqttServerResponseArgs(message);
-      onMqttServerResponse?.Invoke(this, mqttServerResnponseArgs);
+      // convert string to objects like JSON and forward to websocket..]\
+      try
+      {
+        var message = Encoding.UTF8.GetString(e.Message);
+        ConsoleWriter.writeRecieved(message, "Response from Mqtt Server: ");
+        var mqttServerResnponseArgs = new MqttServerResponseArgs(message);
+        onMqttServerResponse?.Invoke(this, mqttServerResnponseArgs);
+      }
+      catch (Exception exepction)
+      {
+        ConsoleWriter.writeCriticalError(exepction.ToString(), "MQTT Client publish-recived ERROR: ");
+      }
     }
 
     public void publish(string topic, string msg)
     {
-      msg = msg.Replace("'", "\"");
-      _mqttClient.Publish(topic, Encoding.UTF8.GetBytes(msg));
+      try
+      {
+        msg = msg.Replace("'", "\"");
+        _mqttClient.Publish(topic, Encoding.UTF8.GetBytes(msg));
+      }
+      catch (Exception e)
+      {
+        ConsoleWriter.writeCriticalError(e.ToString(), "MQTT Client Publishing ERROR: ");
+      }
     }
 
     public bool isConnected()
