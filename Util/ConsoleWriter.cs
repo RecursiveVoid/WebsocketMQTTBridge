@@ -17,30 +17,30 @@ namespace WebsocketMQTTBridge.Util
 
     public static void writeOK(string message, string topic = "")
     {
-      ConsoleWriter.write(message, OK_COLOR, topic);
+      write(message, OK_COLOR, topic);
     }
     public static void writeCriticalError(string message, string topic = "")
     {
-      ConsoleWriter.write(message, CRITICAL_ERROR_COLOR, topic);
+      write(message, CRITICAL_ERROR_COLOR, topic);
     }
 
     public static void writeInfo(string message, string topic = "")
     {
-      ConsoleWriter.write(message, INFO_COLOR, topic);
+      write(message, INFO_COLOR, topic);
     }
 
     public static void writeAlert(string message, string topic = "")
     {
-      ConsoleWriter.write(message, ALERT_COLOR, topic);
+      write(message, ALERT_COLOR, topic);
     }
     public static void writeRecieved(string message, string topic = "")
     {
-      ConsoleWriter.write(message, RECIEVED_MESSAGE, topic);
+      write(message, RECIEVED_MESSAGE, topic);
     }
 
     public static void writeSended(string message, string topic = "")
     {
-      ConsoleWriter.write(message, SENDED_MESSAGE, topic);
+      write(message, SENDED_MESSAGE, topic);
     }
 
 
@@ -51,13 +51,13 @@ namespace WebsocketMQTTBridge.Util
 
     private static void write(string message, ConsoleColor color, string topic = "")
     {
-      ConsoleWriter.newLine();
+      newLine();
       if (topic.Length > 0)
       {
-        ConsoleWriter.writeTopic(topic, color);
+        writeTopic(topic, color);
       }
-      ConsoleWriter.writeMessage(message);
-      ConsoleWriter.newLine();
+      writeMessage(message);
+      newLine();
     }
 
     private static void writeMessage(string message)
