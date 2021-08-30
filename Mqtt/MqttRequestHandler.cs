@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using WebsocketMQTTBridge.JsonInterface;
 using WebsocketMQTTBridge.JsonInterface.WebClientRequestInterface;
 using WebsocketMQTTBridge.Util;
@@ -33,10 +34,20 @@ namespace WebsocketMQTTBridge.Mqtt
     {
       if (_mqttClient.isConnected())
       {
-        // TODO convert it to a method or something
-        string request = "{ 'device': '"+ webClientPublishRequest .device+"', 'method': '"+ webClientPublishRequest .method+"', 'id': "+ webClientPublishRequest .id+" }";
-        ConsoleWriter.writeSended(request, "Request To MQTT Server: ");
-        _mqttClient.publish(webClientPublishRequest.topic, request);
+        if (webClientPublishRequest.parameters != null)
+        {
+          var parametersToString = string.Join(",", webClientPublishRequest.parameters);
+          string normalizeParameters = string.Join(",", parametersToString.Split(',').Select(x => string.Format("'{0}'", x)).ToList());
+          string request = "{ 'device': '" + webClientPublishRequest.device + "', 'method': '" + webClientPublishRequest.method + "', 'id': " + webClientPublishRequest.id + ", 'params': ["+ normalizeParameters + "] }";
+          ConsoleWriter.writeSended(request, "Request To MQTT Server: ");
+          _mqttClient.publish(webClientPublishRequest.topic, request);
+        } else
+        {
+          string request = "{ 'device': '" + webClientPublishRequest.device + "', 'method': '" + webClientPublishRequest.method + "', 'id': " + webClientPublishRequest.id + " }";
+
+          ConsoleWriter.writeSended(request, "Request To MQTT Server: ");
+          _mqttClient.publish(webClientPublishRequest.topic, request);
+        }
       }
       else
       {
