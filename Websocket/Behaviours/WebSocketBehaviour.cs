@@ -49,10 +49,10 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
       base.OnOpen();
       var sessionAmount = Sessions.Count;
       var sessionIds = Sessions.IDs.ToList();
+      // TODO refactor getting currentsession id, looks fishy
       var currentSessionId = sessionIds[sessionAmount - 1];
       if (sessionAmount > SESSION_AMOUNT_LIMIT)
       {
-
         ConsoleWriter.writeAlert(sessionAmount.ToString(), "Connected Web Client Limit Exceed ");
         ConsoleWriter.writeAlert(sessionAmount.ToString(), "Closing Session... ");
         var msg = _websocketResponseCreator.createConnectionRejectedResponse();
@@ -79,9 +79,10 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
       {
         case WebclientRequestType.MQTT:
           ConsoleWriter.writeRecieved(extractedWebRequest.ToString(), "Request From Websocket Client: ");
-          var messageToClient = _websocketResponseCreator.createMqttOkResponse((WebClientRequest) extractedWebRequest);
-          Send(messageToClient);
-          _mqttRequestHandler.processRequest(extractedWebRequest);
+          var mqttResponse = _mqttRequestHandler.processRequest(extractedWebRequest);
+          var webClientRequest = (WebClientRequest)extractedWebRequest;
+          var responseToClient = _websocketResponseCreator.extractWebsocketResponseFromMqttResponse(mqttResponse, webClientRequest);
+          Send(responseToClient);  
           break;
         case WebclientRequestType.WEBSOCKET:
           break;
