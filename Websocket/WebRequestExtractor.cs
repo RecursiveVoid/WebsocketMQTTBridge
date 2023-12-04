@@ -33,6 +33,8 @@ namespace WebsocketMQTTBridge.Websocket
                 return WebclientRequestType.MQTT;
               case "disconnect":
                 return WebclientRequestType.MQTT;
+              case "unsubscribe":
+                return WebclientRequestType.MQTT;
               default:
                 // TODO change it to error
                 return WebclientRequestType.INVALID;
@@ -78,8 +80,8 @@ namespace WebsocketMQTTBridge.Websocket
                 return JsonConvert.DeserializeObject<WebClientPublishRequest>(request);
               case "disconnect":
                 return JsonConvert.DeserializeObject<WebClientRequest>(request);
-              // TODO add unsubscribe
-              // TODO add disconnect
+              case "unsubscribe":
+                return JsonConvert.DeserializeObject<WebClientSubscriptionRequest>(request);
               default:
                 // TODO change it to error
                 return webClientRequest;

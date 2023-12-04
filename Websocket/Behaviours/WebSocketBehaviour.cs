@@ -61,7 +61,7 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
       } else
       {
         // CHECK IF CONNECTION IS VALID
-        var msg = _websocketResponseCreator.createConnectionOkResponse();
+        var msg = _websocketResponseCreator.createConnectionOkResponseForWebSocket();
         Send(msg);
         ConsoleWriter.writeInfo(sessionAmount.ToString(), "Web Client Connected:");
       }
@@ -87,7 +87,7 @@ namespace WebsocketMQTTBridge.Websocket.Behaviours
         case WebclientRequestType.WEBSOCKET:
           break;
         case WebclientRequestType.INVALID:
-          var msg = _websocketResponseCreator.createInvalidRequestResponse();
+          var msg = _websocketResponseCreator.createInvalidRequestResponse(request);
           Send(msg);
           break;
         default:

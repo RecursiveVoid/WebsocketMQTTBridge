@@ -133,6 +133,36 @@ namespace WebsocketMQTTBridge.Mqtt
       }
     }
 
+    // TODO test it , might fucked up tho
+    public MqttResponse unSubscribeTopics(List<string> topics)
+    {
+      if (_mqttClient == null)
+      {
+        ConsoleWriter.writeCriticalError("Server Connection not avaliable", "Cannot unSubscribe to MQTT topic: ");
+        return MqttResponse.MQTTCLIENT_UNAVAILABLE;
+      }
+      if (_subscribedTopics == null || _subscribedTopics.Count <= 0)
+      {
+        ConsoleWriter.writeCriticalError("No Subscribtion", "Cannot unSubscribe to MQTT topic: ");
+        return MqttResponse.NO_SUBSCRIBTIONS;
+      }
+      try
+      {
+        ConsoleWriter.writeAlert(_subscribedTopics.ToString(), "Unsubscribing from all subscribed topics from MQTT: ");
+        _mqttClient.Unsubscribe(_subscribedTopics.ToArray());
+        _subscribedTopics.RemoveAll(x => 
+        {
+          return topics.Contains(x);
+        });
+        return MqttResponse.UNSUBSCRIBED;
+      }
+      catch (Exception e)
+      {
+        ConsoleWriter.writeCriticalError(e.ToString(), "MQTT Client Un-Subscription ERROR: ");
+        return MqttResponse.CRITICAL_ERROR;
+      }
+    }
+
     public MqttResponse unsubscribe()
     {
       if (_mqttClient == null) 

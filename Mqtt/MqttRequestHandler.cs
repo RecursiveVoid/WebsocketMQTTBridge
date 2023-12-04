@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebsocketMQTTBridge.JsonInterface;
@@ -69,15 +70,32 @@ namespace WebsocketMQTTBridge.Mqtt
 
     private MqttResponse _handleSubscriptionRequest(WebClientSubscriptionRequest webClientSubscriptionRequest)
     {
-      if (_mqttClient.isConnected())
+      try
       {
-        var topics = new List<string>(webClientSubscriptionRequest.topics);
-        return _mqttClient.subscribeTopics(topics);
+        if (_mqttClient.isConnected())
+        {
+          var loweredCommand = webClientSubscriptionRequest.command.ToLower();
+          if (loweredCommand == "subscribe")
+          {
+            var topics = new List<string>(webClientSubscriptionRequest.topics);
+            return _mqttClient.subscribeTopics(topics);
+          }
+          else
+          {
+            var topics = new List<string>(webClientSubscriptionRequest.topics);
+            return _mqttClient.unSubscribeTopics(topics);
+          }
+        }
+        else
+        {
+          ConsoleWriter.writeAlert(" Client is disconnected.", "MQTT Client Cannot Subscribe");
+          return MqttResponse.MQTTCLIENT_NO_CONNECTION;
+        }
       }
-      else
+      catch (Exception e)
       {
-        ConsoleWriter.writeAlert(" Client is disconnected.", "MQTT Client Cannot Subscribe");
-        return MqttResponse.MQTTCLIENT_NO_CONNECTION;
+        ConsoleWriter.writeCriticalError(e.ToString(), "MQTT Client Subscription ERROR: ");
+        return MqttResponse.CRITICAL_ERROR;
       }
     }
 
