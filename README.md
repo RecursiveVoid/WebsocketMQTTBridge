@@ -20,7 +20,7 @@ Supporting MQTTS brokers and WSS server.
 Default websocket server is created on: ```ws://127.0.0.1:80```  
 IP: ``` 127.0.0.1 ```
 PORT:  ```80```
-
+Server parameters can be changed in source code, under _WebsocketServer.cs_
 ## Commands
 Commands are in Json format.
 In given examples, the parameters are for demonstrating the data type only.
