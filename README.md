@@ -52,6 +52,6 @@ The command subscribe works in same structure with unsubscribe.
 }
 ```
 [license-src]: https://badgen.net/github/license/amio/badgen
-[license-href]: LICENSE.md
+[license-href]: LICENSE
 [bundlephobia-src]: https://badgen.net/bundlephobia/minzip/badgen
 [bundlephobia-href]: https://bundlephobia.com/result?p=badgen
