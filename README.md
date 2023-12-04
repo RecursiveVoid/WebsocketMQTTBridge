@@ -1,6 +1,6 @@
 # WebsocketMQTTBridge
 [![License][license-src]][license-href]
-[![Bundle size][bundlephobia-src]][bundlephobia-href]
+[![Release][release-src]][release-href]
 ![screenshot of runtime console](https://github.com/RecursiveVoid/gifs/blob/main/websocketMQTTBridge/terminal_screenshot.png?raw=true)
 
 ## About
@@ -55,7 +55,7 @@ The command subscribe works in same structure with unsubscribe.
   "message": { "customParameter": "message is a json object" }
 }
 ```
-[license-src]: https://badgen.net/github/license/amio/badgen
+[license-src]: https://badgen.net/static/license/MIT/blue
 [license-href]: LICENSE
-[bundlephobia-src]: https://badgen.net/bundlephobia/minzip/badgen
-[bundlephobia-href]: https://bundlephobia.com/result?p=badgen
+[release-src]: https://badgen.net/static/Release/0.1.0.0/orange
+[release-href]: LICENSE
