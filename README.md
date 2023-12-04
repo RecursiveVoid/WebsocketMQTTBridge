@@ -25,8 +25,8 @@ Server parameters can be changed in source code, under _WebsocketServer.cs_
 Commands are in Json format.
 In given examples, the parameters are for demonstrating the data type only.
 ### Connection request to MQTT broker
-```
-{
+```json
+{ 
   "command": "connect",
   "ip": "127.0.0.1",
   "port": 10,
@@ -35,24 +35,24 @@ In given examples, the parameters are for demonstrating the data type only.
 ```
 ### Subscription/Unsubscribtion Request 
 The command subscribe works in same structure with unsubscribe.
-```
+```json
 {
   "command": "subscribe", 
   "topics:" ["topic1", "topic2"]
 }
 ```
-```
+```json
 {
   "command": "unsubscribe", 
   "topics:" ["topic1", "topic2"]
 }
 ```
 ### Publishing message to given topic
-```
+```json
 {
   "command": "publish",
   "topic": "topic1",
-  "message": { message is an object, preferably a JSON }
+  "message": { "customParameter": "message is a json object" }
 }
 ```
 [license-src]: https://badgen.net/github/license/amio/badgen
