@@ -6,6 +6,10 @@
 ## About
 WebsocketMQTTBridge is state of art, straight forward tool to create connection and relay a MQTT broker through Websocket.  
 
+## Why Websocket - MQTT Bridge?
+One day at work a regular everyday normal project, created a regular everday normal problem which needed a regular everyday normal solution.
+And the solution was the _blazing fast_ _WebsocketMQTTBridge_.
+
 ## What's in the box
 MQTT broker and WS server support.
 
