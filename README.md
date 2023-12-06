@@ -65,7 +65,7 @@ The command subscribe works in same structure with unsubscribe.
 
 [license-src]: https://badgen.net/static/license/MIT/blue
 [license-href]: LICENSE
-[release-src]: https://badgen.net/static/Release/0.1.0.0/orange
-[release-href]: LICENSE
+[release-src]: https://badgen.net/static/Release/0.1.0/orange
+[release-href]: WebsocketMQTTBridge.csproj
 [Dependencies-src]: https://badgen.net/static/Dependencies/3/blue
 [Dependencies-href]:WebsocketMQTTBridge.csproj
