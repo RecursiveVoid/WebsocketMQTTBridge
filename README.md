@@ -14,8 +14,9 @@ And the solution was the _blazing fast_ _WebsocketMQTTBridge_.
 ## What's in the box
 MQTT broker and WS server support.
 
-## What's missing
+## What's missing & Might planned for future.
 Supporting MQTTS brokers and WSS server. 
+Configurating the Websocket server through json or console application. 
 
 ## Default server parameters
 Default websocket server is created on: ```ws://127.0.0.1:80```  
