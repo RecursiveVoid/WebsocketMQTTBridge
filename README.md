@@ -1,6 +1,7 @@
 # WebsocketMQTTBridge
 [![License][license-src]][license-href]
 [![Release][release-src]][release-href]
+[![Dependencies][Dependencies-src]][Dependencies-href]
 ![screenshot of runtime console](https://github.com/RecursiveVoid/gifs/blob/main/websocketMQTTBridge/terminal_screenshot.png?raw=true)
 
 ## About
@@ -55,7 +56,15 @@ The command subscribe works in same structure with unsubscribe.
   "message": { "customParameter": "message is a json object" }
 }
 ```
+## Dependencies used for the project
+
+* Used for serializing/deserializing json requests/responses to objects. [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+* Creating websocket server. [websocket-sharp](https://github.com/sta/websocket-sharp)
+* Creating communication to MQTT broker. [paho.mqtt.m2mqtt](https://github.com/eclipse/paho.mqtt.m2mqtt)
+
 [license-src]: https://badgen.net/static/license/MIT/blue
 [license-href]: LICENSE
 [release-src]: https://badgen.net/static/Release/0.1.0.0/orange
 [release-href]: LICENSE
+[Dependencies-src]: https://badgen.net/static/Dependencies/3/blue
+[Dependencies-href]:WebsocketMQTTBridge.csproj
