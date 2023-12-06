@@ -5,7 +5,7 @@
 ![screenshot of runtime console](https://github.com/RecursiveVoid/gifs/blob/main/websocketMQTTBridge/terminal_screenshot.png?raw=true)
 
 ## About
-WebsocketMQTTBridge is state of art, straightforward tool to create connection and relay a MQTT broker through Websocket.  
+WebsocketMQTTBridge is state of art, straightforward tool to create connection and relay MQTT broker communication through Websocket.
 
 ## Why Websocket - MQTT Bridge?
 One day at work a regular everyday normal project, created a regular everday normal problem which needed a regular everyday normal solution.
