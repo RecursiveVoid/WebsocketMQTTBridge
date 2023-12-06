@@ -16,7 +16,7 @@ MQTT broker and WS server support.
 
 ## What's missing & TODOs
 * Supporting MQTTS brokers and WSS server.
-* Configurating the Websocket server through json or console application. 
+* Configurating the websocket server through json and console application. 
 
 ## Default server parameters
 Default websocket server is created on: ```ws://127.0.0.1:80```  
